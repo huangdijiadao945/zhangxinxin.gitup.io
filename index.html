@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>胡杰小仙女生日快乐</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg,
+          #ffdde1 0%,
+          #fffacd 30%,
+          #fff0f5 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1500px;
+      touch-action: none;
+    }
+
+    .container {
+      position: relative;
+      text-align: center;
+      padding: 3rem;
+      transform-style: preserve-3d;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .title {
+      font-size: 5vw;
+      font-family: 'Comic Sans MS', cursive;
+      color: #ff69b4;
+      text-shadow:
+        0 0 15px rgba(255, 105, 180, 0.5),
+        0 0 30px rgba(255, 105, 180, 0.3);
+      animation: bubble 5s infinite linear;
+      margin-bottom: 2rem;
+    }
+
+    .name {
+      font-size: 4vw;
+      color: #ff7489;
+      text-shadow:
+        0 0 10px rgba(255, 182, 193, 0.5),
+        0 0 20px rgba(255, 182, 193, 0.3);
+      letter-spacing: 3px;
+      position: relative;
+    }
+
+    /* 优化后的动态装饰层 */
+    .deco-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      pointer-events: none;
+    }
+
+    .deco-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      animation: floatUp 8s linear infinite;
+    }
+
+    /* 礼物盒动画 */
+    .gift-box {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: giftBounce 2s ease-in-out infinite;
+      width: 100px;
+      height: 100px;
+      display: grid;
+      place-items: center;
+    }
+
+    /* 动画定义 */
+    @keyframes bubble {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-20px) scale(1.1);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+
+    @keyframes giftBounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
+
+      50% {
+        transform: translateX(-50%) scale(1.2);
+      }
+    }
+
+    /* 响应式设计 */
+    @media (orientation: landscape) {
+      .container {
+        width: 95%;
+        padding: 2rem;
+      }
+
+      .title {
+        font-size: 6vw;
+      }
+
+      .name {
+        font-size: 5vw;
+      }
+
+      .deco-layer {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      }
+    }
+
+    /* 设备专属优化 */
+    @media only screen and (min-device-width: 390px) and (max-device-width: 844px) {
+      body {
+        background: linear-gradient(135deg, #ff69b4 0%, #ffb6c1 100%);
+      }
+    }
+
+    @media only screen and (min-device-width: 384px) and (max-device-width: 864px) {
+      body {
+        background: linear-gradient(135deg, #ff69b4 0%, #ffe6f2 100%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 动态装饰层 -->
+  <div class="deco-layer" id="decoLayer"></div>
+
+  <!-- 礼物盒 -->
+  <div class="gift-box">
+    <i class="fas fa-gift fa-3x"></i>
+  </div>
+
+  <div class="container">
+    <h1 class="title">Happy Birthday</h1>
+    <h2 class="name">胡杰</h2>
+  </div>
+
+  <script>
+    // 生成有序装饰元素
+    function createDecorations() {
+      const container = document.getElementById('decoLayer');
+      const icons = ['❤️', '🎀', '🍭', '🎈', '🌸', '✨', '🌟', '🐰'];
+
+      for (let i = 0; i < 30; i++) {
+        const item = document.createElement('div');
+        item.className = 'deco-item';
+        item.style.color = `hsl(${i * 12}, 70%, 60%)`;
+        item.innerHTML = icons[i % icons.length];
+        item.style.animationDelay = `${i * 0.2}s`;
+        item.style.transform = `scale(${0.5 + i * 0.02})`;
+        container.appendChild(item);
+      }
+    }
+
+    // 生成礼物粒子
+    function createGiftParticles() {
+      const container = document.querySelector('.container');
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'deco-item';
+        particle.innerHTML = '🎁';
+        particle.style.position = 'absolute';
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animation = `floatUp ${Math.random() * 4 + 3}s linear`;
+        container.appendChild(particle);
+      }
+    }
+
+    // 优化后的初始化
+    function init() {
+      createDecorations();
+      createGiftParticles();
+
+      // 添加点击涟漪效果
+      document.addEventListener('click', (e) => {
+        const ripple = document.createElement('div');
+        ripple.className = 'deco-item';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        ripple.innerHTML = '💫';
+        document.body.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 1000);
+      });
+    }
+
+    // 启动动画
+    init();
+  </script>
+</body>
+
+</html>
