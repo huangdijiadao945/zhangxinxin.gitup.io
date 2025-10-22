@@ -1,236 +1,279 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>胡杰小仙女生日快乐</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食幸运大转盘</title>
+    <style>
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            background-color: #fff9e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
 
-    body {
-      min-height: 100vh;
-      overflow: hidden;
-      background: linear-gradient(135deg,
-          #ffdde1 0%,
-          #fffacd 30%,
-          #fff0f5 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1500px;
-      touch-action: none;
-    }
+        .container {
+            text-align: center;
+            position: relative;
+        }
 
-    .container {
-      position: relative;
-      text-align: center;
-      padding: 3rem;
-      transform-style: preserve-3d;
-      max-width: 600px;
-      width: 90%;
-    }
+        h1 {
+            color: #e74c3c;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
 
-    .title {
-      font-size: 5vw;
-      font-family: 'Comic Sans MS', cursive;
-      color: #ff69b4;
-      text-shadow:
-        0 0 15px rgba(255, 105, 180, 0.5),
-        0 0 30px rgba(255, 105, 180, 0.3);
-      animation: bubble 5s infinite linear;
-      margin-bottom: 2rem;
-    }
+        .wheel-container {
+            position: relative;
+            width: 450px;
+            height: 450px;
+            margin: 0 auto 30px;
+        }
 
-    .name {
-      font-size: 4vw;
-      color: #ff7489;
-      text-shadow:
-        0 0 10px rgba(255, 182, 193, 0.5),
-        0 0 20px rgba(255, 182, 193, 0.3);
-      letter-spacing: 3px;
-      position: relative;
-    }
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 15px solid #f39c12;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+            background-color: white;
+        }
 
-    /* 优化后的动态装饰层 */
-    .deco-layer {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      pointer-events: none;
-    }
+        .section {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            left: 0;
+            top: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
 
-    .deco-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      backdrop-filter: blur(5px);
-      animation: floatUp 8s linear infinite;
-    }
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 50px solid #e74c3c;
+            z-index: 10;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+        }
 
-    /* 礼物盒动画 */
-    .gift-box {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: giftBounce 2s ease-in-out infinite;
-      width: 100px;
-      height: 100px;
-      display: grid;
-      place-items: center;
-    }
+        .center-circle {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #f39c12;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 18px;
+        }
 
-    /* 动画定义 */
-    @keyframes bubble {
-      0% {
-        transform: translateY(0) scale(1);
-      }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
 
-      50% {
-        transform: translateY(-20px) scale(1.1);
-      }
+        button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
 
-      100% {
-        transform: translateY(0) scale(1);
-      }
-    }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-      }
+        .result {
+            margin-top: 20px;
+            font-size: 28px;
+            color: #e74c3c;
+            font-weight: bold;
+            height: 40px;
+            min-width: 300px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-      }
-    }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: fall 3s linear forwards;
+            z-index: 100;
+        }
 
-    @keyframes giftBounce {
-
-      0%,
-      100% {
-        transform: translateX(-50%) scale(1);
-      }
-
-      50% {
-        transform: translateX(-50%) scale(1.2);
-      }
-    }
-
-    /* 响应式设计 */
-    @media (orientation: landscape) {
-      .container {
-        width: 95%;
-        padding: 2rem;
-      }
-
-      .title {
-        font-size: 6vw;
-      }
-
-      .name {
-        font-size: 5vw;
-      }
-
-      .deco-layer {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-      }
-    }
-
-    /* 设备专属优化 */
-    @media only screen and (min-device-width: 390px) and (max-device-width: 844px) {
-      body {
-        background: linear-gradient(135deg, #ff69b4 0%, #ffb6c1 100%);
-      }
-    }
-
-    @media only screen and (min-device-width: 384px) and (max-device-width: 864px) {
-      body {
-        background: linear-gradient(135deg, #ff69b4 0%, #ffe6f2 100%);
-      }
-    }
-  </style>
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <!-- 动态装饰层 -->
-  <div class="deco-layer" id="decoLayer"></div>
+    <div class="container">
+        <h1>今天吃什么？</h1>
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel">
+                <!-- 转盘分区将通过JS动态生成 -->
+            </div>
+            <div class="center-circle">EAT!</div>
+        </div>
+        <div class="result" id="result"></div>
+        <button id="spin-btn">开始选择</button>
+    </div>
 
-  <!-- 礼物盒 -->
-  <div class="gift-box">
-    <i class="fas fa-gift fa-3x"></i>
-  </div>
+    <script>
+        // 美食奖品配置
+        const prizes = [
+            { text: "美味家常菜", color: "#e74c3c" },
+            { text: "面条", color: "#e67e22" },
+            { text: "曹氏", color: "#d35400" },
+            { text: "冒菜", color: "#f39c12" },
+            { text: "瓦香鸡", color: "#f1c40f" },
+            { text: "凉面", color: "#2ecc71" },
+            { text: "泡面", color: "#27ae60" },
+            { text: "火鸡面", color: "#16a085" },
+            { text: "螺蛳粉", color: "#1abc9c" },
+            { text: "牛肉饭", color: "#3498db" },
+            { text: "米线", color: "#2980b9" },
+            { text: "塔斯汀", color: "#9b59b6" },
+            { text: "盖饭", color: "#8e44ad" },
+            { text: "猪脚饭", color: "#34495e" },
+            { text: "奶茶一杯", color: "#e84393" },
+            { text: "炸鸡架", color: "#fd79a8" },
+            { text: "寿司", color: "#00cec9" },
+            { text: "煎饼果子", color: "#fab1a0" },
+            { text: "酸辣粉", color: "#e17055" },
+            { text: "肠粉", color: "#6c5ce7" },
+            { text: "鸡公煲", color: "#a29bfe" },
+            { text: "干锅", color: "#fd9644" },
+            { text: "披萨", color: "#26de81" },
+            { text: "抄手", color: "#2d98da" },
+            { text: "水饺", color: "#45aaf2" }
+        ];
 
-  <div class="container">
-    <h1 class="title">Happy Birthday</h1>
-    <h2 class="name">胡杰</h2>
-  </div>
+        // 创建转盘分区
+        const wheel = document.getElementById('wheel');
+        const sectionAngle = 360 / prizes.length;
+        
+        prizes.forEach((prize, index) => {
+            const section = document.createElement('div');
+            section.className = 'section';
+            section.style.transform = `rotate(${index * sectionAngle}deg)`;
+            section.style.backgroundColor = prize.color;
+            
+            // 调整文本方向
+            const textSpan = document.createElement('span');
+            textSpan.textContent = prize.text;
+            textSpan.style.transform = `rotate(${sectionAngle / 2}deg)`;
+            textSpan.style.display = 'inline-block';
+            textSpan.style.paddingLeft = '100px';
+            textSpan.style.paddingBottom = '25px';
+            
+            section.appendChild(textSpan);
+            wheel.appendChild(section);
+        });
 
-  <script>
-    // 生成有序装饰元素
-    function createDecorations() {
-      const container = document.getElementById('decoLayer');
-      const icons = ['❤️', '🎀', '🍭', '🎈', '🌸', '✨', '🌟', '🐰'];
+        // 旋转转盘
+        const spinBtn = document.getElementById('spin-btn');
+        const resultEl = document.getElementById('result');
+        
+        spinBtn.addEventListener('click', () => {
+            // 禁用按钮防止重复点击
+            spinBtn.disabled = true;
+            resultEl.textContent = '';
+            
+            // 随机旋转角度 (5-10圈 + 随机奖品位置)
+            const spinAngle = 1800 + Math.floor(Math.random() * 3600) + (Math.floor(Math.random() * prizes.length) * sectionAngle);
+            
+            // 应用旋转
+            wheel.style.transform = `rotate(${-spinAngle}deg)`;
+            
+            // 旋转结束后显示结果
+            setTimeout(() => {
+                const normalizedAngle = (spinAngle % 360);
+                const prizeIndex = Math.floor(normalizedAngle / sectionAngle);
+                const winningPrize = prizes[prizes.length - 1 - prizeIndex];
+                
+                resultEl.textContent = `今天吃: ${winningPrize.text}`;
+                spinBtn.disabled = false;
+                
+                // 庆祝效果 - 创建彩色纸屑
+                createConfetti();
+            }, 4000);
+        });
 
-      for (let i = 0; i < 30; i++) {
-        const item = document.createElement('div');
-        item.className = 'deco-item';
-        item.style.color = `hsl(${i * 12}, 70%, 60%)`;
-        item.innerHTML = icons[i % icons.length];
-        item.style.animationDelay = `${i * 0.2}s`;
-        item.style.transform = `scale(${0.5 + i * 0.02})`;
-        container.appendChild(item);
-      }
-    }
-
-    // 生成礼物粒子
-    function createGiftParticles() {
-      const container = document.querySelector('.container');
-      for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'deco-item';
-        particle.innerHTML = '🎁';
-        particle.style.position = 'absolute';
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animation = `floatUp ${Math.random() * 4 + 3}s linear`;
-        container.appendChild(particle);
-      }
-    }
-
-    // 优化后的初始化
-    function init() {
-      createDecorations();
-      createGiftParticles();
-
-      // 添加点击涟漪效果
-      document.addEventListener('click', (e) => {
-        const ripple = document.createElement('div');
-        ripple.className = 'deco-item';
-        ripple.style.left = `${e.clientX}px`;
-        ripple.style.top = `${e.clientY}px`;
-        ripple.innerHTML = '💫';
-        document.body.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 1000);
-      });
-    }
-
-    // 启动动画
-    init();
-  </script>
+        // 创建彩色纸屑效果
+        function createConfetti() {
+            const colors = ['#e74c3c', '#e67e22', '#f39c12', '#f1c40f', '#2ecc71', '#27ae60', '#16a085', '#1abc9c', '#3498db', '#2980b9', '#9b59b6', '#8e44ad', '#34495e', '#e84393', '#fd79a8'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                
+                document.body.appendChild(confetti);
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+    </script>
 </body>
-
 </html>
