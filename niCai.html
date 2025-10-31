@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闺蜜你在干嘛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .message-box {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .message-box::before {
+            content: '"';
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            font-size: 60px;
+            color: rgba(0, 0, 0, 0.1);
+            font-family: Georgia, serif;
+        }
+        
+        .message {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #ff6b6b;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        
+        .time {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        .decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
+            top: -30px;
+            right: -30px;
+            opacity: 0.3;
+        }
+        
+        .decoration:nth-child(2) {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            bottom: -30px;
+            left: -30px;
+            top: auto;
+            right: auto;
+        }
+        
+        .emoji {
+            font-size: 40px;
+            margin: 15px 0;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decoration"></div>
+        <div class="decoration"></div>
+        
+        <h1>闺蜜你在干嘛</h1>
+        <img src="https://www.bslhsh.com:9999/zhsq-wg/2025/10/31/1984176122652475393.png" alt="">
+    </div>
+</body>
+</html>
